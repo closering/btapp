@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ctype">
+        <item >生产者</item>
+        <item >零售商</item>
+        <item >物流</item>
+        <item >仓储</item>
+        <item >其他</item>
+    </string-array>
+</resources>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/et_epc"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:background="@drawable/shape"
+            android:hint="input epc code">
+        </EditText>
+        <EditText
+            android:id="@+id/et_bid"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:background="@drawable/shape"
+            android:hint="input bid code">
+        </EditText>
+        <EditText
+            android:id="@+id/et_uid"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:background="@drawable/shape"
+            android:hint="input uid code">
+        </EditText>
+
+        <Button
+            android:id="@+id/write_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundbutton_style"
+           
+            android:text="WRITE TO TAG" />
+    </LinearLayout>
+       
+<LinearLayout
+    	android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+        android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/noteRead"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:gravity="top"
+        android:background="@drawable/shape"
+        android:hint="waiting for read tag." />
+    
+</LinearLayout> 
+<LinearLayout
+    	android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+   
+
+    <Button
+        android:id="@+id/read_tag"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/roundbutton_style"
+        android:text="READ FROM TAG" />
+ </LinearLayout>
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+        android:orientation="horizontal" >    
+    <RadioGroup 
+            android:id="@+id/radioGroup" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_weight="2"
+            android:orientation="horizontal"    
+            > 
+            <RadioButton 
+                android:id="@+id/radioBtn1" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:text="Stock In" 
+               /> 
+            <RadioButton 
+                android:id="@+id/radioBtn2" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:text="Stock Out" 
+               /> 
+        </RadioGroup> 
+        <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="onButtonFinishClick"
+        android:background="@drawable/roundbutton_style"
+        android:textSize="15sp"
+        android:text="FINISH SCAN" />
+    
+</LinearLayout>
+
+<LinearLayout
+    	android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+        android:orientation="horizontal" >
+        
+        <Button
+        android:id="@+id/setup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onButtonSetupClick"
+        android:background="@drawable/roundbutton_style"
+
+        android:text="SETTINGS" />
+   
+
+    <Button
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="4"
+        android:onClick="onButtonCheckClick"
+        android:background="@drawable/roundbutton_style"
+        android:text="SEARCH" />
+    
+    
+</LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/bt_logo" />
+    <TextView
+        android:id="@+id/tvEpcInfo"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="100dp"
+        android:gravity="top"
+        android:scrollbars="vertical" 
+        android:background="@drawable/shape"
+        android:hint="show info here." >
+    </TextView>
+
+    <ExpandableListView 
+        android:layout_marginTop="10dp"
+        android:id="@+id/expList1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
+</LinearLayout>

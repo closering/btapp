@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="fill_parent"
+        android:layout_height="350dp"
+        android:layout_weight="0.18"
+        android:ems="10"
+        android:gravity="top"
+        android:scrollbars="vertical" 
+        android:background="@drawable/shape"
+        android:hint="show info here." >
+    </TextView>
+    
+     <Button
+        android:id="@+id/submit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+        android:onClick="onButtonSubmitClick"
+        android:background="@drawable/roundbutton_style"
+        android:text="Submit" >
+        </Button>
+          
+</LinearLayout>

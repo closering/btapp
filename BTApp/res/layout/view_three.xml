@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="5dp" >
+
+    
+    <TextView
+        android:id="@+id/noteReadTracing"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:layout_weight="2"
+        android:background="@drawable/shape"
+        android:hint="waiting for read tag." />
+
+    <Button
+        android:id="@+id/read_tag_tracing"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/roundbutton_style"
+        android:text="READ FROM TAG" />
+    
+    <Button
+        android:id="@+id/check"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/roundbutton_style"
+        android:text="TRACING" />
+</LinearLayout>
