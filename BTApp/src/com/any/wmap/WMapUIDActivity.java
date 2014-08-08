@@ -40,6 +40,8 @@ import android.widget.LinearLayout;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -349,8 +351,13 @@ OnMarkerClickListener, OnInfoWindowClickListener, OnMarkerDragListener, InfoWind
 	protected void onPause() {
 		super.onPause();
 		deactivate();
+		JPushInterface.onPause(this);
 	}
-	
+	@Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
 	/*
 	 * 菜单响应事件 
 	 */

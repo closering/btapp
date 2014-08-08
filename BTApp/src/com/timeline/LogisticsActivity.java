@@ -3,6 +3,8 @@ package com.timeline;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.bt.btapp.R;
 import android.app.Activity;
 import android.content.Context;
@@ -117,6 +119,15 @@ public class LogisticsActivity extends Activity {
 		Log.i(TAG, "二级状态："+oneList.get(0).getTwoList().get(0).getStatusName());
 		
 	}
-
+	@Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
 
 }

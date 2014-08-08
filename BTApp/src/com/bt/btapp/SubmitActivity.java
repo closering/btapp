@@ -17,6 +17,8 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import cn.jpush.android.api.JPushInterface;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -209,6 +211,15 @@ public class SubmitActivity extends Activity
 	}
 }
 
-	
+	@Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
 
 }

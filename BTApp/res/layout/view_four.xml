@@ -6,12 +6,28 @@
     android:orientation="vertical" >
 
     <TextView
-        android:gravity="left"
-        android:text="我的消息"
+        android:text="My Message"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:paddingTop="9dp"
-        android:textSize="20sp"
+        android:textSize="25sp"
+        android:textColor="#ffffff"
+        android:gravity="center"
         android:background="#ff0033"
         />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="5dp"
+        android:background="#ffff99"
+        />
+    <ListView 
+        android:id="@+id/listview_message"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:dividerHeight="3dp" 
+        android:divider="#ffff99"
+        android:transcriptMode="alwaysScroll"
+        android:focusable="true"
+        android:longClickable="true"
+        android:fadingEdge="vertical">
+    </ListView>
 </LinearLayout>

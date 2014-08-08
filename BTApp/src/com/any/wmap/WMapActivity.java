@@ -40,6 +40,8 @@ import android.widget.LinearLayout;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -110,6 +112,8 @@ OnMarkerClickListener, OnInfoWindowClickListener, OnMarkerDragListener, InfoWind
 	double[] dd=new double[4];
 	double lat=0;
 	double lng=0;
+	double oldlat=0;
+	double oldlng=0;
 	private boolean init_flag = false;
 	private boolean init_flag_start = false;
 	private boolean pause_flag = false;
@@ -392,12 +396,14 @@ OnMarkerClickListener, OnInfoWindowClickListener, OnMarkerDragListener, InfoWind
 	  @Override
 	    protected void onResume() {
 	        super.onResume();
+	        JPushInterface.onResume(this);
 	    }
 	  
 	@Override
 	protected void onPause() {
 		super.onPause();
 		deactivate();
+		JPushInterface.onPause(this);
 	}
 	
 	  /**
@@ -650,6 +656,10 @@ OnMarkerClickListener, OnInfoWindowClickListener, OnMarkerDragListener, InfoWind
 			
 			if(pause_flag == false)
 			{
+				if(lat != oldlat || lng != oldlng)
+				{
+					oldlat = lat;
+					oldlng = lng;
 		        CountDownLatch threadSignal_1 = new CountDownLatch(1);
 				new Point_upload(threadSignal_1).start();
 				try {
@@ -668,6 +678,7 @@ OnMarkerClickListener, OnInfoWindowClickListener, OnMarkerDragListener, InfoWind
 					e.printStackTrace();
 				}
 				Toast.makeText(WMapActivity.this, "Upload_State: " + upload_state, Toast.LENGTH_SHORT).show();
+				}//end if(lat != oldlat || lng != oldlng)
 			}
 		
 		

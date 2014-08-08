@@ -20,6 +20,8 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -474,7 +476,13 @@ public class Tracing extends FragmentActivity implements OnClickListener,OnMarke
 	protected void onPause() {
 		super.onPause();
 		deactivate();
+		JPushInterface.onPause(this);
 	}
+	@Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
 	private List<LatLng> createRectangle(LatLng center, double halfWidth,
 			double halfHeight) {
 		return Arrays.asList(new LatLng(center.latitude - halfHeight,

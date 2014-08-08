@@ -1,6 +1,7 @@
 package com.bt.btapp;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -17,7 +18,11 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import com.bt.btapp.ScanActivity.Check;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.util.ad;
+
+
 
 
 
@@ -39,6 +44,7 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
+import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -50,12 +56,18 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;   
 
 
 public class FunctionModuleActivity extends Activity{
@@ -116,12 +128,16 @@ public class FunctionModuleActivity extends Activity{
 	TextView mNoteRead;//显示扫描信息
 	TextView mNoteReadTracing;//Tracing视图中显示扫描信息
 	Button button_WMap;//还没用到，不知道是什么控件
+	ListView listView;
+	//ListItemAdapter adapter;
 	
 	NfcAdapter mNfcAdapter;
 	PendingIntent mNfcPendingIntent;
 	IntentFilter[] mWriteTagFilters;
 	IntentFilter[] mNdefExchangeFilters;
 	String opt = "no operation";
+	
+	JpushApplication JpushApp;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -129,7 +145,8 @@ public class FunctionModuleActivity extends Activity{
 		setContentView(R.layout.function_module);
 		Intent intent=getIntent();
 		Bundle bundle= intent.getExtras();
-		username = bundle.getString("username");
+		JpushApp = (JpushApplication)getApplicationContext();
+		username = JpushApp.getUsername();
 		init();
 	}
 
@@ -177,6 +194,9 @@ public class FunctionModuleActivity extends Activity{
 		Matrix matrix = new Matrix();
 		matrix	.postTranslate(moveX, 0);
 		image	.setImageMatrix(matrix);	// 设置动画初始位置
+		
+		viewPager.setCurrentItem(JpushApp.getViewNum());//显示指定视图
+		JpushApp.setViewNum(0);//将默认视图改为第0个
 	}
 	public void init_NFC()
 	{
@@ -203,6 +223,10 @@ public class FunctionModuleActivity extends Activity{
 	   	mNoteRead = ((TextView) second.findViewById(R.id.noteRead));
 	   	mNoteReadTracing = ((TextView) third.findViewById(R.id.noteReadTracing));
 	   	raGroup = (RadioGroup)second.findViewById(R.id.radioGroup);
+	   	
+	   	
+	   	listView = (ListView)fourth.findViewById(R.id.listview_message);
+	   	listView.setAdapter(JpushApp.adapter);	   		   		   	
 	}
 	/*
 	 * 各个控件的响应函数
@@ -254,8 +278,8 @@ public class FunctionModuleActivity extends Activity{
      					 disableTagWriteMode();
      					 enableNdefExchangeMode();
      				 }
-     			 }).create().show();
-            } 
+     			 }).create().show(); 
+            }
 		});
 		second.findViewById(R.id.read_tag).setOnClickListener(new OnClickListener(){  //第二个view中的"READ FROM TAG"按钮的点击响应函数 
             @Override
@@ -351,7 +375,7 @@ public class FunctionModuleActivity extends Activity{
         		}
         		if(epcTracing.equals("null")!=true&&!epcTracing.equals(""))
         		{
-        			if(Response==null)
+        			if(Response==null || Response.equals(""))
         			{
         				Toast.makeText(FunctionModuleActivity.this, "the epc code is not existed!", 
         						Toast.LENGTH_SHORT).show();
@@ -424,6 +448,51 @@ public class FunctionModuleActivity extends Activity{
                 }
             }  
         });
+		
+		listView.setOnItemClickListener(new OnItemClickListener() {
+	   		@Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,  
+                    long arg3) {  
+	   			JpushApp.adapter.setIndex(arg2);  
+	   			JpushApp.adapter.notifyDataSetChanged();  
+            }   
+        });
+	   	listView.setOnItemLongClickListener(new OnItemLongClickListener(){
+	   		public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,  
+                    long arg3) { 
+	   			final int  pos = arg2;
+	   			dialog = new AlertDialog.Builder(FunctionModuleActivity.this);
+	   			dialog.setTitle("Please Choice");
+	   			dialog.setItems(new String[]{"Delete" , "Cancel"}, new DialogInterface.OnClickListener() {	
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO 自动生成的方法存根
+						switch(which)
+						{
+							case 0:
+								JpushApp.deleteMessage(pos);
+								JpushApp.adapter.notifyDataSetChanged();
+								break;
+							case 1:
+								dialog.dismiss();
+								break;
+						}
+					}
+				});
+	   			dialog.create().show();
+	   			return true;		
+	   		}
+	   	});
+	   	fifth.findViewById(R.id.btn_logout).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(FunctionModuleActivity.this, MyService.class);
+				stopService(intent);//关闭监听服务 
+				//android.os.Process.killProcess(android.os.Process.myPid());
+				//System.exit(0);
+			}
+		});
 	}
 	public void initTracing()
 	{
@@ -443,6 +512,7 @@ public class FunctionModuleActivity extends Activity{
 		mResumed = true;	
 		mNfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 		mNfcAdapter.enableForegroundDispatch(this, mNfcPendingIntent, mNdefExchangeFilters, null);
+		JPushInterface.onResume(this);
 	}
 
 	@Override
@@ -451,6 +521,7 @@ public class FunctionModuleActivity extends Activity{
 		super.onPause();
 		mResumed = false;
 		mNfcAdapter.disableForegroundNdefPush(this);
+		JPushInterface.onPause(this);
 	}
 	/*
 	 * 手机检测到NFC tag时的程序入口
@@ -733,8 +804,8 @@ public class FunctionModuleActivity extends Activity{
 				HttpResponse httpResponse = httpClient.execute(request);
 				if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
 				{
-					
 					String retSrc = EntityUtils.toString(httpResponse.getEntity());
+					System.out.println("tracing start   "+retSrc);
 					if(retSrc.length() < 1)
 					{
 						retSrc = "{\"HEXLE\":\"null,null,null,null,null,null\"}";
